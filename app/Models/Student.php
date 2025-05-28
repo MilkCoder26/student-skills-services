@@ -22,4 +22,8 @@ class Student extends Model
         'phone_number',
         'bio',
     ];
+
+    protected $casts = [
+    'skills' => 'array',
+    ];
 }

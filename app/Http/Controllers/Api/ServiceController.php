@@ -13,7 +13,7 @@ class ServiceController extends Controller
     {
         $services = Service::get();
 
-        if($services) {
+        if($services->count() > 0) {
             return ServiceResource::collection($services);
         }
         else {

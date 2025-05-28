@@ -13,7 +13,7 @@ class CategoryController extends Controller
     {
         $categories = Category::get();
 
-        if($categories) {
+        if($categories->count() > 0) {
             return CategoryResource::collection($categories);
         }
         else {
