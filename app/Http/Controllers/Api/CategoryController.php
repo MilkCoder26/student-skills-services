@@ -25,25 +25,47 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        // Logic to create a new category
-        // Example: return new CategoryResource(Category::create($request->all()));
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = Category::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json([
+            'message' => 'Category created successfully',
+            'data' => new CategoryResource($category),
+        ], 201);
     }
 
-    public function show($id)
+    public function show(Category $category)
     {
-        // Logic to retrieve a specific category by ID
-        // Example: return new CategoryResource(Category::findOrFail($id));
+        return new CategoryResource($category);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        // Logic to update an existing category
-        // Example: return new CategoryResource(tap(Category::findOrFail($id))->update($request->all()));
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+        ]);
+
+        return response()->json([
+            'message' => 'Category updated successfully',
+            'data' => new CategoryResource($category),
+        ], 200);
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        // Logic to delete a category
-        // Example: Category::destroy($id);
+        $category->delete();
+
+        return response()->json([
+            'message' => 'Category deleted successfully',
+        ], 200);
     }
 }
